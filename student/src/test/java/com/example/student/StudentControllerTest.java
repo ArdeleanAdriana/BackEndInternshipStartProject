@@ -126,8 +126,8 @@ public class StudentControllerTest {
     @Test
     public void updateStudentTest() throws Exception {
         StudentDto student = new StudentDto(144L, "aaaavsadsavsadaaaa","andi@gmail.com", "FSEGA", "0799999999");
-        //StudentDto student2 = new StudentDto(144L, "aaaavsadsavsadaaaa","andi@gmail.com", "FSEGA", "0799999999");
-        when(studentService.updateStudent(student)).thenReturn(student);
+
+        when(studentService.updateStudent(student,144L)).thenReturn(student);
         String jsonContent = "{\n" +
                 "    \"id\": \"144\",\n" +
                 "    \"name\": \"aaaavsadsavsadaaaa\",\n" +
@@ -136,7 +136,7 @@ public class StudentControllerTest {
                 "    \"phone\": \"0799999999\"\n" +
                 "}";
 
-        mockMvc.perform(put("/students")
+        mockMvc.perform(put("/students/144")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(jsonContent))
                 .andExpect(status().isOk())

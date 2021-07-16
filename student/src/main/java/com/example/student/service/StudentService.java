@@ -34,8 +34,15 @@ public class StudentService {
 
     }
 
-    public StudentDto updateStudent(StudentDto studentDto) {
-        Student student = mapToEntity(studentDto);
+    public StudentDto updateStudent(StudentDto studentDto, Long id) {
+//        Student student = mapToEntity(studentDto);
+//        Student save = studentRepo.save(student);
+//        return mapToDTO(student);
+        Student student = studentRepo.findStudentById(id).orElseThrow(() -> new UserNotFoundException("User by id " + id + " was not found"));
+        student.setName(studentDto.getName());
+        student.setEmail(studentDto.getEmail());
+        student.setUniversity(studentDto.getUniversity());
+        student.setPhone(studentDto.getPhone());
         Student save = studentRepo.save(student);
         return mapToDTO(student);
     }

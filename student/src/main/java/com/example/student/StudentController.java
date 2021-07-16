@@ -38,10 +38,10 @@ public class StudentController {
         return new ResponseEntity<>(newStudent, HttpStatus.CREATED);
     }
 
-    @PutMapping()
+    @PutMapping("/{id}")
     @Transactional
-    public ResponseEntity<StudentDto> updateStudent(@RequestBody @Valid StudentDto studentDto){
-        StudentDto updateStudent = studentService.updateStudent(studentDto);
+    public ResponseEntity<StudentDto> updateStudent(@RequestBody @Valid StudentDto studentDto, @PathVariable Long id){
+        StudentDto updateStudent = studentService.updateStudent(studentDto, id);
         return new ResponseEntity<>(updateStudent, HttpStatus.OK);
     }
 

@@ -113,12 +113,13 @@ public class StudentServiceTest {
                 .phone("0123456789")
                 .build();
 
+        when(studentRepo.findStudentById(ID)).thenReturn(Optional.of(student));
         when(studentRepo.save(any(Student.class))).thenReturn(student);
         when(modelMapper.map(studentDto, Student.class)).thenReturn(student);
         studentDto.setId(ID);
         when(modelMapper.map(student, StudentDto.class)).thenReturn(studentDto);
 
-        StudentDto result = studentService.updateStudent(studentDto);
+        StudentDto result = studentService.updateStudent(studentDto,ID);
 
         verify(studentRepo).save(any(Student.class));
 
