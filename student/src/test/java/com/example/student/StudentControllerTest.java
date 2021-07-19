@@ -1,23 +1,15 @@
 package com.example.student;
 
 import com.example.student.dto.StudentDto;
-import com.example.student.model.Student;
 import com.example.student.service.StudentService;
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
-import org.hamcrest.Matchers;
 import org.junit.Before;
 import org.junit.Test;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
-import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
-import org.mockito.junit.MockitoJUnitRunner;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
@@ -25,23 +17,21 @@ import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.ResultActions;
-import org.springframework.test.web.servlet.ResultMatcher;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 @RunWith(SpringRunner.class)
-@SpringBootTest//(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
+@SpringBootTest
 public class StudentControllerTest {
-   // @Autowired
+
     public MockMvc mockMvc;
     public ObjectMapper objectMapper;
     @Autowired
@@ -56,15 +46,15 @@ public class StudentControllerTest {
     public void setUp() {
         objectMapper = new ObjectMapper();
         MockitoAnnotations.openMocks(this);
-        mockMvc = MockMvcBuilders .webAppContextSetup(context).build();
+        mockMvc = MockMvcBuilders.webAppContextSetup(context).build();
     }
 
     @Test
     public void getAllStudentsTest() throws Exception {
-        List<StudentDto> students= new ArrayList<>();
-        students.add(new StudentDto(144L, "aaa","adsa@yahoo.com", "bbbb", "0123456789"));
-        students.add(new StudentDto(123L, "aacccaa","blabla@gmail.com" ,"bbbb", "0123452789"));
-        students.add(new StudentDto(200L, "bbb","blablaaa@gmail.com" , "bbbb", "0133456789"));
+        List<StudentDto> students = new ArrayList<>();
+        students.add(new StudentDto(144L, "aaa", "adsa@yahoo.com", "bbbb", "0123456789"));
+        students.add(new StudentDto(123L, "aacccaa", "blabla@gmail.com", "bbbb", "0123452789"));
+        students.add(new StudentDto(200L, "bbb", "blablaaa@gmail.com", "bbbb", "0133456789"));
         when(studentService.findAllStudents()).thenReturn(students);
         MvcResult mvcResult = mockMvc.perform(get("/students"))
                 .andExpect(status().isOk())
@@ -79,9 +69,9 @@ public class StudentControllerTest {
 
     @Test
     public void getStudentByIdTest() throws Exception {
-        StudentDto student= new StudentDto(144L, "aaa","adsa@yahoo.com", "bbbb", "0123456789");
+        StudentDto student = new StudentDto(144L, "aaa", "adsa@yahoo.com", "bbbb", "0123456789");
         when(studentService.findStudentById(144L)).thenReturn(student);
-        MvcResult mvcResult = mockMvc.perform(get("/students/"+student.getId()))
+        MvcResult mvcResult = mockMvc.perform(get("/students/" + student.getId()))
                 .andExpect(status().isOk())
                 .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
                 .andReturn();
@@ -93,15 +83,15 @@ public class StudentControllerTest {
 
     @Test
     public void deleteStudentByIdTest() throws Exception {
-        StudentDto student= new StudentDto(144L, "aaa","adsa@yahoo.com", "bbbb", "0123456789");
-        ResultActions result = mockMvc.perform(delete("/students/"+student.getId()));
+        StudentDto student = new StudentDto(144L, "aaa", "adsa@yahoo.com", "bbbb", "0123456789");
+        ResultActions result = mockMvc.perform(delete("/students/" + student.getId()));
         result.andExpect(status().isOk());
 
     }
 
     @Test
     public void addStudentTest() throws Exception {
-        StudentDto student = new StudentDto(144L, "aaaavsadsavsadaaaa","andi@gmail.com", "FSEGA", "0799999999");
+        StudentDto student = new StudentDto(144L, "aaaavsadsavsadaaaa", "andi@gmail.com", "FSEGA", "0799999999");
         when(studentService.addStudent(student)).thenReturn(student);
         String jsonContent = "{\n" +
                 "    \"id\": \"144\",\n" +
@@ -125,9 +115,9 @@ public class StudentControllerTest {
 
     @Test
     public void updateStudentTest() throws Exception {
-        StudentDto student = new StudentDto(144L, "aaaavsadsavsadaaaa","andi@gmail.com", "FSEGA", "0799999999");
+        StudentDto student = new StudentDto(144L, "aaaavsadsavsadaaaa", "andi@gmail.com", "FSEGA", "0799999999");
 
-        when(studentService.updateStudent(student,144L)).thenReturn(student);
+        when(studentService.updateStudent(student, 144L)).thenReturn(student);
         String jsonContent = "{\n" +
                 "    \"id\": \"144\",\n" +
                 "    \"name\": \"aaaavsadsavsadaaaa\",\n" +
@@ -151,9 +141,9 @@ public class StudentControllerTest {
     @Test
     public void getAllStudents() throws Exception {
         List<StudentDto> students = new ArrayList<>();
-        students.add(new StudentDto(144L, "aaa","adsa@yahoo.com", "bbbb", "0123456789"));
-        students.add(new StudentDto(123L, "aacccaa","blabla@gmail.com" ,"bbbb", "0123452789"));
-        students.add(new StudentDto(200L, "bbb","blablaaa@gmail.com" , "bbbb", "0133456789"));
+        students.add(new StudentDto(144L, "aaa", "adsa@yahoo.com", "bbbb", "0123456789"));
+        students.add(new StudentDto(123L, "aacccaa", "blabla@gmail.com", "bbbb", "0123452789"));
+        students.add(new StudentDto(200L, "bbb", "blablaaa@gmail.com", "bbbb", "0133456789"));
         when(studentService.findAllStudents()).thenReturn(students);
         MvcResult mvcResult = mockMvc.perform(get("/students"))
                 .andExpect(status().isOk())

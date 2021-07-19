@@ -1,6 +1,9 @@
 package com.example.student.dto;
 
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
@@ -17,7 +20,7 @@ public class StudentDto {
     private String email;
     @Size(min = 1)
     private String university;
-    @Pattern(regexp="^[0-9]{10}$")
+    @Pattern(regexp = "^[0-9]{10}$")
     private String phone;
 
 }

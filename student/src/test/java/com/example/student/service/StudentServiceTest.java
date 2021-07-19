@@ -4,24 +4,19 @@ import com.example.student.dto.StudentDto;
 import com.example.student.exception.UserNotFoundException;
 import com.example.student.model.Student;
 import com.example.student.repo.StudentRepo;
-
-
 import org.junit.Test;
 import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.Disabled;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnitRunner;
 import org.modelmapper.ModelMapper;
 
-
 import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 
-
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
 
@@ -69,7 +64,7 @@ public class StudentServiceTest {
     }
 
     @Test
-    public void findAllStudentsTest(){
+    public void findAllStudentsTest() {
 
         Student student = Student.builder()
                 .id(500L)
@@ -119,7 +114,7 @@ public class StudentServiceTest {
         studentDto.setId(ID);
         when(modelMapper.map(student, StudentDto.class)).thenReturn(studentDto);
 
-        StudentDto result = studentService.updateStudent(studentDto,ID);
+        StudentDto result = studentService.updateStudent(studentDto, ID);
 
         verify(studentRepo).save(any(Student.class));
 
@@ -128,7 +123,7 @@ public class StudentServiceTest {
     }
 
     @Test
-    public void deleteStudentTest(){
+    public void deleteStudentTest() {
         Student student = Student.builder()
                 .id(ID)
                 .name("aaa")
@@ -139,6 +134,7 @@ public class StudentServiceTest {
         studentService.deleteStudent(student.getId());
         verify(studentRepo).deleteStudentById(student.getId());
     }
+
     @Test(expected = UserNotFoundException.class)
     public void testFindByIdException() {
         when(studentRepo.findStudentById(anyLong())).thenReturn(Optional.empty());
@@ -147,7 +143,7 @@ public class StudentServiceTest {
 
 
     @Test
-    public void findStudentByIdTest(){
+    public void findStudentByIdTest() {
         Student student = Student.builder()
                 .id(ID)
                 .name("aaa")
